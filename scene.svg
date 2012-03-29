@@ -43,28 +43,36 @@
     <script type="text/javascript"><![CDATA[
         var svgns = "http://www.w3.org/2000/svg";
         var xlinkns = "http://www.w3.org/1999/xlink";
-
         var scene = document.getElementById("scene");
+        var palette = [ '#A50026',
+                        '#D73027',
+                        '#F46D43',
+                        '#FDAE61',
+                        '#FEE08B',
+                        '#D9EF8B',
+                        '#A6D96A',
+                        '#66BD63',
+                        '#1A9850',
+                        '#006837' ];
 
         function log(msg) {
             if (console) { console.log(msg); }
         }
 
-        var x=100, y=100;
+        var x=200, y=150, scale=1;
         for (var i=0; i < 10; i++) {
             // append a balloon to the scene
             var balloon = document.createElementNS(svgns, "use");
                 balloon.setAttributeNS(xlinkns, 'href', '#balloon');
-                balloon.setAttributeNS(null, "fill", "#A50026");
-                balloon.setAttributeNS(null, 'transform', 'translate('+x+', '+y+') scale(1)');
+                balloon.setAttributeNS(null, "fill", palette[i%palette.length]);
+                balloon.setAttributeNS(null, 'transform', 'translate('+x+', '+y+') scale('+scale+')');
 
             log("Drawing balloon at: "+x+", "+y);
 
             scene.appendChild(balloon);
-            y += 100;
-            x += 50;
+            y += 50*scale;
+            x += 30*scale;
+            scale += 0.5;
         }
     ]]></script>
 </svg>
-
-<!-- 0xA50026; 0xD73027; 0xF46D43; 0xFDAE61; 0xFEE08B; 0xD9EF8B; 0xA6D96A; 0x66BD63; 0x1A9850; 0x006837;  -->
