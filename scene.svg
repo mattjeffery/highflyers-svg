@@ -46,14 +46,24 @@
 
         var scene = document.getElementById("scene");
 
-        // append a balloon to the scene
-        var balloon = document.createElementNS(svgns, "use");
-            balloon.setAttributeNS(xlinkns, 'href', '#balloon');
-            balloon.setAttributeNS(null, 'x', '50%');
-            balloon.setAttributeNS(null, 'y', '50%');
-            balloon.setAttributeNS(null, "fill", "#A50026");
+        function log(msg) {
+            if (console) { console.log(msg); }
+        }
 
-        scene.appendChild(balloon);
+        var x=100, y=100;
+        for (var i=0; i < 10; i++) {
+            // append a balloon to the scene
+            var balloon = document.createElementNS(svgns, "use");
+                balloon.setAttributeNS(xlinkns, 'href', '#balloon');
+                balloon.setAttributeNS(null, "fill", "#A50026");
+                balloon.setAttributeNS(null, 'transform', 'translate('+x+', '+y+') scale(1)');
+
+            log("Drawing balloon at: "+x+", "+y);
+
+            scene.appendChild(balloon);
+            y += 100;
+            x += 50;
+        }
     ]]></script>
 </svg>
 
