@@ -43,6 +43,14 @@
     <use xlink:href="#mmlogo" x="1.5%" y="0.75%" style="fill: #b2b1b1" />
     <text x="1.5%" y="3.75%" style="fill: white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rutrum congue sem, quis rutrum diam eleifend in. Donec lacinia nisi in mauris molestie eu egestas mi molestie.</text>
 
+    <!-- Licence text -->
+    <text y="98%" style="fill: white">
+        <tspan x="1.5%">This work is licensed under a</tspan>
+        <a style="fill: white" xlink:href="http://creativecommons.org/licenses/by-sa/3.0/">
+            <tspan x="1.5%" dy="1%">Creative Commons Attribution-ShareAlike 3.0 Unported License</tspan>
+        </a>
+    </text>
+
     <!-- JavaScript to place the balloons in the scene -->
     <script type="text/javascript"><![CDATA[
         var svgns = "http://www.w3.org/2000/svg";
