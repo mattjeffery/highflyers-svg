@@ -16,6 +16,10 @@
         }
     ]]></style>
 
+    <script type="text/javascript" xlink:href="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" />
+    <script type="text/javascript" xlink:href="../js/jquery.ba-bbq.min.js" />
+    <script type="text/javascript" xlink:href="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" />
+
     <defs>
         <!-- Background Gradient -->
         <linearGradient id="bg-grad" x1="0" y1="0" x2="0" y2="100%">
