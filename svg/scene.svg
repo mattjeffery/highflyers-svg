@@ -83,7 +83,6 @@
     <script type="text/javascript"><![CDATA[
         var svgns = "http://www.w3.org/2000/svg";
         var xlinkns = "http://www.w3.org/1999/xlink";
-        var scene = document.getElementById("scene");
         var palette = [ '#A50026',
                         '#D73027',
                         '#F46D43',
@@ -95,25 +94,54 @@
                         '#1A9850',
                         '#006837' ];
 
-        function log(msg) {
-            if (console) { console.log(msg); }
-        }
+        var args = jQuery.deparam.fragment();
+        var apikey = args['apikey'];
+        var chartid = args['chart'] || '2960402fc260409c8bcd75b00d8dc4c8';
+        var charturl = jQuery.validator.format("http://api.semetric.com/chart/{0}", chartid);
+        var limit = 10;
 
-        var x=140, y=80, scale=1;
-        for (var i=0; i < 10; i++) {
+        function makeBalloon(x, y, scale, color) {
             // append a balloon to the scene
             var balloon = document.createElementNS(svgns, "use");
                 balloon.setAttributeNS(xlinkns, 'href', '#balloon');
-                balloon.setAttributeNS(null, "fill", palette[i%palette.length]);
+                balloon.setAttributeNS(null, "fill", color);
                 balloon.setAttributeNS(null, 'transform', 'translate('+x+', '+y+') scale('+scale+')');
 
-            log("Drawing balloon at: "+x+", "+y);
-
-            scene.appendChild(balloon);
-            y += 30*scale;
-            x += 10*scale;
-            scale += 0.1;
+            return balloon;
         }
+
+        $.getJSON(charturl,
+          { 'token': apikey, 'limit': limit },
+          function(data){
+            // chart request successful
+            if (data['success']) {
+                var scene = document.getElementById("scene");
+                var cdata = data['response']['data'].slice(0, limit);
+
+                // find the max and min values 
+                var values = $.map(cdata, function(d) { return d.value; });
+                var maxval = Math.max.apply(Math, values);
+                var minval = Math.min.apply(Math, values);
+
+                // iterate all the artists in the chart
+                $(cdata).each(function(i, item) {
+                    console.log(item.artist.name, item.value);
+
+                    var scale = 0.2 + (item.value - minval) * (1.0-0.2) / (maxval-minval);
+                    var x = (scale*80)+(Math.random()*(420-(scale*170)))
+
+                    console.log(scale);
+
+                    // normalise the value 
+                    var b = makeBalloon(x, 595-(500*scale), scale, palette[i%palette.length]);
+
+                    scene.appendChild(b);
+                });
+            } else {
+                console.log("Chart request failed.")
+            }
+          });
+
     ]]></script>
 
     <!-- Draw the logo and intro -->
