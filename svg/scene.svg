@@ -117,6 +117,8 @@
             // chart request successful
             if (data['success']) {
                 var chart = data['response'];
+                console.log("Using random seed: "+chart['id']);
+
                 var mersenne = new MersenneTwister(chart['id']);
                 var scene = document.getElementById("scene");
                 var cdata = chart['data'].slice(0, limit);
@@ -128,20 +130,17 @@
 
                 // iterate all the artists in the chart
                 $(cdata).each(function(i, item) {
-                    console.log(item.artist.name, item.value);
-
+                    // normalise the value
                     var scale = 0.2 + (item.value - minval) * (1.0-0.2) / (maxval-minval);
                     var x = (scale*80)+(mersenne.random()*(420-(scale*170)))
 
-                    console.log(scale);
+                    console.debug(item.rank, item.artist.name, item.value, scale);
 
-                    // normalise the value 
                     var b = makeBalloon(x, 595-(500*scale), scale, palette[i%palette.length]);
-
                     scene.appendChild(b);
                 });
             } else {
-                console.log("Chart request failed.")
+                console.error("Chart request failed.")
             }
           });
 
