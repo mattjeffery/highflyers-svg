@@ -19,6 +19,7 @@
     <script type="text/javascript" xlink:href="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" />
     <script type="text/javascript" xlink:href="../js/jquery.ba-bbq.min.js" />
     <script type="text/javascript" xlink:href="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" />
+    <script type="text/javascript" xlink:href="../js/mersenne-twister.js" />
 
     <defs>
         <!-- Background Gradient -->
@@ -115,8 +116,10 @@
           function(data){
             // chart request successful
             if (data['success']) {
+                var chart = data['response'];
+                var mersenne = new MersenneTwister(chart['id']);
                 var scene = document.getElementById("scene");
-                var cdata = data['response']['data'].slice(0, limit);
+                var cdata = chart['data'].slice(0, limit);
 
                 // find the max and min values 
                 var values = $.map(cdata, function(d) { return d.value; });
@@ -128,7 +131,7 @@
                     console.log(item.artist.name, item.value);
 
                     var scale = 0.2 + (item.value - minval) * (1.0-0.2) / (maxval-minval);
-                    var x = (scale*80)+(Math.random()*(420-(scale*170)))
+                    var x = (scale*80)+(mersenne.random()*(420-(scale*170)))
 
                     console.log(scale);
 
