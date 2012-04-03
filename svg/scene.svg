@@ -6,7 +6,7 @@
 <svg id="scene"
      xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="420px" height="595px"
+     width="100%"
      x="0" y="0"
      viewBox="0 0 420 595">
     <style type="text/css" ><![CDATA[
