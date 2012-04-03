@@ -99,7 +99,7 @@
         var args = jQuery.deparam.fragment();
         var apikey = args['apikey'];
         var chartid = args['chart'] || '2960402fc260409c8bcd75b00d8dc4c8';
-        var charturl = jQuery.validator.format("http://api.semetric.com/chart/{0}?callback=?", chartid);
+        var charturl = jQuery.validator.format("http://api.semetric.com/chart/{0}", chartid);
         var limit = 10;
 
         function makeBalloon(x, y, scale, color) {
