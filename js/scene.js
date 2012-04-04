@@ -61,7 +61,7 @@ function drawScene(parent, width, height, apikey, chartid, limit) {
             var minval = Math.min.apply(Math, values);
 
             // iterate all the artists in the chart
-            $(cdata).each(function(i, item) {
+            $(cdata.reverse()).each(function(i, item) {
                 /* normalise the value (force scale to 1.0 if the scale
                    is invalid - if there is only one item in the chart
                    for example */
