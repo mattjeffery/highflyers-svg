@@ -14,7 +14,8 @@
             $(function() {
                 // on document ready
                 var fragment = jQuery.param.fragment();
-                var svgurl = 'svg/scene.svg#'+fragment;
+                var unix_time = Math.round(+new Date()/1000);
+                var svgurl = 'svg/scene.svg?no-cache='+unix_time+'#'+fragment;
                 /* Create the object */
                 var obj = $('<object>')
                                 .attr('id', 'balloon_scene')
