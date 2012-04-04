@@ -67,7 +67,7 @@ function drawScene(parent, width, height, apikey, chartid, limit) {
                    for example */
                 var scale = 0.2+(item.value-minval)*(1.0-0.2)/(maxval-minval) || 1.0;
                 /* 170 is the width of the balloon */
-                var x = mersenne.random()*(width-(scale*170))
+                var x = mersenne.random()*(width-170)+(170/2)
                 var y = height*(1-scale)+(70*scale);
 
                 console.debug(item.rank, item.artist.name, item.value, scale);
