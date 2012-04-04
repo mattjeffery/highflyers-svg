@@ -8,14 +8,34 @@
     <head>
         <title>Highflyers powered by Musicmetric.com</title>
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.ba-bbq.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                // on document ready
+                var fragment = jQuery.param.fragment();
+                var svgurl = 'svg/scene.svg#'+fragment;
+                /* Create the object */
+                var obj = $('<object>')
+                                .attr('id', 'balloon_scene')
+                                .attr('type', 'image/svg+xml')
+                                .css('position', 'absolute').css('top', '0').css('left', '0').css('width', '100%')
+                                .attr('data', svgurl);
+
+                $('<param>')
+                    .attr('name', 'src').attr('value', svgurl)
+                .appendTo(obj);
+
+                $('<param>')
+                    .attr('name', 'wmode').attr('value', 'transparent')
+                .appendTo(obj);
+
+                /* Insert the object in to the document body */
+                obj.appendTo('body');
+            });
+        </script>
     </head>
 
-    <body style="padding: 0; margin: 0; background-color: #7E8FA1">
-        <object id="balloon_scene" type="image/svg+xml" data="svg/scene.svg" style="position: absolute; top: 0; left: 0; width: 100%">
-            <param name="src" value="svg/scene.svg" />
-            <param name="wmode" value="transparent" />
-        </object>
-
-    </body>
+    <body style="padding: 0; margin: 0; background-color: #7E8FA1"></body>
 
 </html>
