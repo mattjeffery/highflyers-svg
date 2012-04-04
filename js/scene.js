@@ -1,5 +1,6 @@
 /*
- * JavaScript for drawing the Balloons in the SVG
+ * JavaScript for drawing the Balloons in the SVG from a Musicmetric
+ *   Chart
  *
  * This work is licensed under the Creative Commons
  * Attribution-ShareAlike 3.0 Unported License. To view a copy of this
@@ -15,7 +16,7 @@ var palette = ['#A50026', '#D73027', '#F46D43', '#FDAE61', '#FEE08B',
 function makeBalloon(parent, x, y, scale, color) {
     /* Draw the balloon and it's label using jquery svg plugin
     */
-    var g = _svg.group();
+    var g = _svg.group(0, 0);
 
     // create a balloon and add it to the balloon group
     _svg.use(g, 0, 0, null, null, "#balloon",
@@ -61,11 +62,13 @@ function drawScene(parent, width, height, apikey, chartid, limit) {
 
             // iterate all the artists in the chart
             $(cdata).each(function(i, item) {
-                // normalise the value
-                var scale = 0.2+(item.value-minval)*(1.0-0.2)/(maxval-minval);
+                /* normalise the value (force scale to 1.0 if the scale
+                   is invalid - if there is only one item in the chart
+                   for example */
+                var scale = 0.2+(item.value-minval)*(1.0-0.2)/(maxval-minval) || 1.0;
                 /* 170 is the width of the balloon */
                 var x = mersenne.random()*(width-(scale*170))
-                var y = height*(1-scale);
+                var y = height*(1-scale)+(70*scale);
 
                 console.debug(item.rank, item.artist.name, item.value, scale);
 
