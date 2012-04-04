@@ -8,18 +8,51 @@
      xmlns:xlink="http://www.w3.org/1999/xlink"
      width="100%"
      x="0" y="0"
-     viewBox="0 0 420 595">
-    <style type="text/css" ><![CDATA[
+     viewBox="0 0 420 595"
+     onload="init(evt)">
+    <style type="text/css"><![CDATA[
         @font-face {
             font-family: Collegiate;
             src: url("../fonts/Collegiate.ttf");
         }
+        @import "../css/jquery.svg.css";
     ]]></style>
 
     <script type="text/javascript" xlink:href="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" />
     <script type="text/javascript" xlink:href="../js/jquery.ba-bbq.min.js" />
     <script type="text/javascript" xlink:href="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" />
     <script type="text/javascript" xlink:href="../js/mersenne-twister.js" />
+    <script type="text/javascript" xlink:href="../js/jquery.svg.js" />
+    <script type="text/javascript" xlink:href="../js/jquery.svgdom.js" />
+    <!-- JavaScript to place the balloons in the scene -->
+    <script type="text/javascript" xlink:href="../js/scene.js" />
+    <script type="text/javascript"><![CDATA[ 
+        var _svg; 
+
+        /* hashchanged handler */
+        function hashchanged(e) {
+            /* Parse the fragment args */
+            var args = $.deparam.fragment();
+            console.debug("Arguments: ", args);
+            var apikey = args['apikey'];
+            var chartid = args['chart'] || '2960402fc260409c8bcd75b00d8dc4c8';
+            var limit = parseInt(args['limit'] || 10);
+            /* drawing is a sub svg, it has a distinct viewbox */
+            var parent = document.getElementById("drawing");
+
+            drawScene(parent, 420, 595, apikey, chartid, limit);
+        }
+
+        /* init script to set up the svgWrapper */
+        function init(evt) { 
+            _svg = new $.svg._wrapperClass(evt.target.ownerDocument.documentElement);
+            $(window).bind('hashchange', hashchanged);
+
+            // trigger hashchange to start the ball rolling
+            hashchanged();
+        } 
+    // ]]> 
+    </script> 
 
     <defs>
         <!-- Background Gradient -->
@@ -81,72 +114,13 @@
     <!-- Draw the background -->
     <rect id="background" x="0" y="0" width="420" height="595" style="fill: url(#bg-grad);"/>
 
-    <!-- JavaScript to place the balloons in the scene -->
-    <script type="text/javascript"><![CDATA[
-        var svgns = "http://www.w3.org/2000/svg";
-        var xlinkns = "http://www.w3.org/1999/xlink";
-        var palette = [ '#A50026',
-                        '#D73027',
-                        '#F46D43',
-                        '#FDAE61',
-                        '#FEE08B',
-                        '#D9EF8B',
-                        '#A6D96A',
-                        '#66BD63',
-                        '#1A9850',
-                        '#006837' ];
+    <!-- debug rect -->
+    <rect x="20" y="10" width="380" height="575" style="stroke: red; stroke-width: 0.3; fill: none; stroke-dasharray: 2 1"/>
 
-        var args = jQuery.deparam.fragment();
-        var apikey = args['apikey'];
-        var chartid = args['chart'] || '2960402fc260409c8bcd75b00d8dc4c8';
-        var charturl = jQuery.validator.format("http://api.semetric.com/chart/{0}", chartid);
-        var limit = 10;
-
-        function makeBalloon(x, y, scale, color) {
-            // append a balloon to the scene
-            var balloon = document.createElementNS(svgns, "use");
-                balloon.setAttributeNS(xlinkns, 'href', '#balloon');
-                balloon.setAttributeNS(null, "fill", color);
-                balloon.setAttributeNS(null, 'transform', 'translate('+x+', '+y+') scale('+scale+')');
-
-            return balloon;
-        }
-
-        $.getJSON(charturl,
-          { 'token': apikey, 'limit': limit },
-          function(data){
-            // chart request successful
-            console.log("Recieved response from API");
-            if (data['success']) {
-                var chart = data['response'];
-                console.log("Using random seed: "+chart['id']);
-
-                var mersenne = new MersenneTwister(parseInt(chart['id'], 16));
-                var scene = document.getElementById("scene");
-                var cdata = chart['data'].slice(0, limit);
-
-                // find the max and min values 
-                var values = $.map(cdata, function(d) { return d.value; });
-                var maxval = Math.max.apply(Math, values);
-                var minval = Math.min.apply(Math, values);
-
-                // iterate all the artists in the chart
-                $(cdata).each(function(i, item) {
-                    // normalise the value
-                    var scale = 0.2 + (item.value - minval) * (1.0-0.2) / (maxval-minval);
-                    var x = (scale*80)+(mersenne.random()*(420-(scale*170)))
-
-                    console.debug(item.rank, item.artist.name, item.value, scale);
-
-                    var b = makeBalloon(x, 595-(500*scale), scale, palette[i%palette.length]);
-                    scene.appendChild(b);
-                });
-            } else {
-                console.error("Chart request failed.")
-            }
-          });
-
-    ]]></script>
+    <svg id="drawing" viewBox="0 0 420 595" width="380" x="20" y="10">
+        <!-- debug rect -->
+        <rect x="0" y="0" width="420" height="595" style="stroke: white; stroke-width: 0.3; fill: none; stroke-dasharray: 1 2"/>
+    </svg>
 
     <!-- Draw the logo and intro -->
     <use xlink:href="#mmlogo" x="4" y="5" style="fill: #b2b1b1" />
