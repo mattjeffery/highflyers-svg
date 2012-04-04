@@ -16,6 +16,9 @@
             src: url("../fonts/Collegiate.ttf");
         }
         @import "../css/jquery.svg.css";
+        .debug {
+            display: hidden;
+        }
     ]]></style>
 
     <script type="text/javascript" xlink:href="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" />
@@ -37,8 +40,16 @@
             var apikey = args['apikey'];
             var chartid = args['chart'] || '2960402fc260409c8bcd75b00d8dc4c8';
             var limit = parseInt(args['limit'] || 10);
+            var debug = (parseInt(args['debug']) == 1);
             /* drawing is a sub svg, it has a distinct viewbox */
             var parent = document.getElementById("drawing");
+
+            // show or hide debug elements
+            if (debug) {
+                $(".debug").show();
+            } else {
+                $(".debug").hide();
+            }
 
             drawScene(parent, 420, 595, apikey, chartid, limit);
         }
@@ -115,11 +126,12 @@
     <rect id="background" x="0" y="0" width="420" height="595" style="fill: url(#bg-grad);"/>
 
     <!-- debug rect -->
-    <rect x="20" y="40" width="380" height="535" style="stroke: red; stroke-width: 0.3; fill: none; stroke-dasharray: 2 1"/>
+    <rect x="20" y="40" width="380" height="535" style="stroke: red; stroke-width: 0.3; fill: none; stroke-dasharray: 2 1" class="debug"/>
 
-    <svg id="drawing" viewBox="0 0 380 535" width="380" height="535" x="20" y="40">
+    <svg id="drawing-wrapper" viewBox="0 0 380 535" width="380" height="535" x="20" y="40">
         <!-- debug rect -->
-        <rect x="0" y="0" width="100%" height="100%" style="stroke: white; stroke-width: 0.3; fill: none; stroke-dasharray: 1 2"/>
+        <rect x="0" y="0" width="100%" height="100%" style="stroke: white; stroke-width: 0.3; fill: none; stroke-dasharray: 1 2" class="debug"/>
+        <g id="drawing" x="0" y="0"/>
     </svg>
 
     <!-- Draw the logo and intro -->
