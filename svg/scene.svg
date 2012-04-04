@@ -6,8 +6,8 @@
 <svg id="scene"
      xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="420mm"
-     height="595mm"
+     width="100%"
+     x="0" y="0"
      viewBox="0 0 420 595">
     <style type="text/css" ><![CDATA[
         @font-face {
@@ -24,8 +24,9 @@
     <defs>
         <!-- Background Gradient -->
         <linearGradient id="bg-grad" x1="0" y1="0" x2="0" y2="100%">
-            <stop offset="0" style="stop-color: #001C1E; stop-opacity: 1" />
-            <stop offset="100%" style="stop-color: #002144; stop-opacity: 1" />
+            <stop offset="0" style="stop-color: #0E1D46; stop-opacity: 1" />
+            <stop offset="90%" style="stop-color: #416EB1; stop-opacity: 1" />
+            <stop offset="100%" style="stop-color: #7E8FA1; stop-opacity: 1" />
         </linearGradient>
 
         <!-- Hotair Balloon -->
@@ -115,6 +116,7 @@
           { 'token': apikey, 'limit': limit },
           function(data){
             // chart request successful
+            console.log("Recieved response from API");
             if (data['success']) {
                 var chart = data['response'];
                 console.log("Using random seed: "+chart['id']);
