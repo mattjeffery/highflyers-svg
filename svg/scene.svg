@@ -51,6 +51,8 @@
                 $(".debug").hide();
             }
 
+            $("#drawing").children().remove();
+
             drawScene(parent, 420, 595, apikey, chartid, limit);
         }
 
