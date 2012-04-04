@@ -119,7 +119,7 @@
                 var chart = data['response'];
                 console.log("Using random seed: "+chart['id']);
 
-                var mersenne = new MersenneTwister(chart['id']);
+                var mersenne = new MersenneTwister(parseInt(chart['id'], 16));
                 var scene = document.getElementById("scene");
                 var cdata = chart['data'].slice(0, limit);
 
