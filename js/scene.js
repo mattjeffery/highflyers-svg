@@ -18,17 +18,16 @@ function makeBalloon(parent, x, y, scale, color) {
     */
     var g = _svg.group(0, 0);
 
+    // draw label to the right if the balloon is on the right
+    var label_x = (x > 420/2) ? 420 : 0;
+    _svg.line(g, label_x, y, x, y, { stroke: 'white',
+                                     strokeWidth: 0.3,
+                                     strokeDasharray: '2 1'});
+
     // create a balloon and add it to the balloon group
     _svg.use(g, 0, 0, null, null, "#balloon",
              { fill: color,
                transform: 'translate('+x+', '+y+') scale('+scale+')' });
-
-    // draw label to the right if the balloon is on the right
-    var label_x = (x > 420/2) ? 420 : 0;
-
-    _svg.line(g, label_x, y, x, y, { stroke: 'white',
-                                     strokeWidth: 0.3,
-                                     strokeDasharray: '2 1'});
 
     parent.appendChild(g);
     return g;
